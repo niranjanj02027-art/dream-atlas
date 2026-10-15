@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#211d3c">
+<title>The Dream Atlas — For Ammu Maa</title>
+<style>
+:root{--night:#211d3c;--lav:#8c78b9;--cream:#fff6e7;--gold:#f5d79c;--pink:#f4c2d1;--mint:#bfe4d3}
+*{box-sizing:border-box}
+body{margin:0;color:var(--cream);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 0%,#544b80 0,#292447 42%,#17152b 100%);min-height:100vh}
+.stars{position:fixed;inset:0;pointer-events:none;overflow:hidden;opacity:.8}
+.star{position:absolute;color:#fff1c7;animation:twinkle 3s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.25;transform:scale(.8)}to{opacity:1;transform:scale(1.15)}}
+.wrap{position:relative;max-width:900px;margin:auto;padding:28px 16px 45px}
+header{text-align:center;padding:18px 8px 10px}
+.kicker{font:11px/1.5 Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h1{font-size:clamp(36px,8vw,64px);font-weight:normal;line-height:1.03;margin:13px 0}
+h1 em{color:var(--pink)}
+.lead{max-width:590px;margin:0 auto;color:#f0eaf9;line-height:1.7;font-size:16px}
+.progress{margin:22px auto 0;width:min(100%,350px);height:7px;background:#ffffff20;border-radius:99px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));transition:width .4s}
+.progress-label{font:12px Arial,sans-serif;color:#d9cfe9;margin-top:8px}
+.map{position:relative;max-width:760px;margin:25px auto 0;min-height:540px;border:1px solid #f5d79c55;border-radius:32px;overflow:hidden;background:
+ radial-gradient(ellipse at 30% 20%,#7d78b95c 0,transparent 33%),
+ radial-gradient(ellipse at 75% 70%,#63b9b25c 0,transparent 30%),
+ linear-gradient(145deg,#37335e,#242d50 55%,#1c2942);box-shadow:0 24px 70px #0005}
+.map:before{content:"";position:absolute;inset:0;opacity:.2;background-image:radial-gradient(#f9e8bb 1px,transparent 1px);background-size:24px 24px}
+.route{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.route path{fill:none;stroke:#f8dba3;stroke-width:2;stroke-dasharray:6 8;opacity:.8}
+.island{position:absolute;z-index:2;width:150px;min-height:122px;border:1px solid #fff8d0aa;border-radius:48% 52% 45% 55% / 55% 42% 58% 45%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:13px 8px;color:#302443;box-shadow:0 12px 25px #0004;cursor:pointer;transition:transform .2s,filter .2s;background:linear-gradient(145deg,#fff1bc,#efc8a8)}
+.island:hover{transform:translateY(-4px) scale(1.03);filter:brightness(1.08)}
+.island:focus-visible{outline:3px solid white;outline-offset:4px}
+.island .emoji{font-size:29px;line-height:1.2}
+.island strong{font-size:16px;margin-top:5px}
+.island small{font:10px Arial,sans-serif;margin-top:4px;opacity:.8}
+.island.done{box-shadow:0 0 0 3px #f5d79c55,0 12px 25px #0004}
+.island.done:after{content:"✓";position:absolute;right:10px;top:5px;background:#355d54;color:white;border-radius:50%;width:22px;height:22px;font: bold 14px/22px Arial}
+.i1{left:7%;top:8%;background:linear-gradient(145deg,#ffe8a8,#f2b8bf)}
+.i2{right:7%;top:8%;background:linear-gradient(145deg,#e5d4ff,#b7c8ff)}
+.i3{left:6%;top:49%;background:linear-gradient(145deg,#d8f2cf,#a8dccd)}
+.i4{right:6%;top:49%;background:linear-gradient(145deg,#ffe0bb,#f2b5a5)}
+.i5{left:50%;top:74%;transform:translateX(-50%);background:linear-gradient(145deg,#fff0b4,#f2c1d6);width:160px;min-height:130px}
+.i5:hover{transform:translateX(-50%) translateY(-4px) scale(1.03)}
+.i5.locked{filter:grayscale(.8);opacity:.65}
+.map-caption{position:absolute;z-index:2;left:0;right:0;top:39%;text-align:center;padding:0 10px;color:#f9e8c4;text-shadow:0 2px 8px #1118}
+.map-caption strong{display:block;font-size:clamp(17px,4vw,23px);font-weight:normal;font-style:italic}
+.map-caption small{font:10px Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.instruction{text-align:center;color:#e0d8f0;font:12px/1.7 Arial,sans-serif;margin:14px 0}
+.modal{position:fixed;inset:0;background:#100d1cbb;display:none;align-items:center;justify-content:center;padding:18px;z-index:10}
+.modal.open{display:flex}
+.panel{position:relative;width:min(100%,490px);padding:30px 24px 25px;border-radius:25px;background:linear-gradient(145deg,#fff6e9,#f8dfe5);color:#34243d;text-align:center;box-shadow:0 25px 90px #0008;border:1px solid #fff}
+.panel .close{position:absolute;right:13px;top:10px;border:0;background:#34243d10;border-radius:50%;width:34px;height:34px;font-size:20px;cursor:pointer;color:#34243d}
+.panel .big{font-size:42px}
+.panel .tag{font:10px Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#8c668d}
+.panel h2{font-size:31px;font-weight:normal;margin:10px 0 12px}
+.panel p{line-height:1.8;font-size:16px;white-space:pre-line}
+.panel button.primary{border:0;border-radius:99px;padding:13px 20px;background:#44365e;color:white;font-size:14px;cursor:pointer;margin-top:10px}
+.note{max-width:620px;margin:20px auto 0;padding:18px;border:1px solid #ffffff22;border-radius:18px;text-align:center;color:#e7dff1;font:13px/1.7 Arial,sans-serif}
+footer{text-align:center;margin:25px 0 0;color:#b9afcc;font:11px Arial,sans-serif;letter-spacing:.08em}
+@media(max-width:560px){.map{min-height:520px}.island{width:125px;min-height:112px}.i1{left:3%;top:6%}.i2{right:3%;top:6%}.i3{left:2%;top:47%}.i4{right:2%;top:47%}.i5{top:75%;width:140px;min-height:120px}.map-caption{top:37%}.map-caption small{letter-spacing:.08em}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars" aria-hidden="true"></div>
+<div class="wrap">
+<header>
+ <div class="kicker">A tiny universe, made just for you</div>
+ <h1>The <em>Dream Atlas</em> 🌌</h1>
+ <p class="lead">Ammu Maa, every island holds a little wish for you. Explore the map, collect all four stars, and unlock the birthday island at the end. 🥹💗</p>
+ <div class="progress" aria-label="Islands explored"><span id="progress"></span></div>
+ <div class="progress-label" id="progressLabel">0 of 4 wishes discovered</div>
+</header>
+<section class="map" aria-label="Interactive fantasy map">
+ <svg class="route" viewBox="0 0 760 540" preserveAspectRatio="none" aria-hidden="true"><path d="M130 95 C245 100 255 200 365 235 S520 125 635 95 M130 300 C250 340 250 430 380 420 S530 350 635 300 M365 235 C370 315 380 350 380 425"/></svg>
+ <button class="island i1" data-island="0"><span class="emoji">☀️</span><strong>Island of Happiness</strong><small>DESTINATION 01</small></button>
+ <button class="island i2" data-island="1"><span class="emoji">✨</span><strong>Island of Dreams</strong><small>DESTINATION 02</small></button>
+ <button class="island i3" data-island="2"><span class="emoji">🏡</span><strong>Island of Peace</strong><small>DESTINATION 03</small></button>
+ <button class="island i4" data-island="3"><span class="emoji">🌍</span><strong>Island of Adventures</strong><small>DESTINATION 04</small></button>
+ <button class="island i5 locked" id="finalIsland" data-island="4"><span class="emoji">🔒💗</span><strong>Birthday Star</strong><small>LOCKED — FIND 4 STARS</small></button>
+ <div class="map-caption"><strong>“Follow the little lights…”</strong><small>tap each island to discover your wish</small></div>
+</section>
+<p class="instruction">✨ Tap the four outer islands in any order. Each one holds a wish made just for you.</p>
+<div class="note">A small reminder from your boy: you don't have to reach every dream at once, Ammu Maa. Your happiness, peace, and journey matter. ❤️</div>
+<footer>MADE WITH LOVE · FOR AMMU MAA · 24 ✦</footer>
+</div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+ <div class="panel">
+  <button class="close" id="close" aria-label="Close">×</button>
+  <div class="big" id="modalEmoji">☀️</div>
+  <div class="tag" id="modalTag">DESTINATION 01</div>
+  <h2 id="modalTitle">Island of Happiness</h2>
+  <p id="modalText"></p>
+  <button class="primary" id="modalAction">Collect this star ✨</button>
+ </div>
+</div>
+<script>
+const destinations=[{"emoji":"☀️","tag":"DESTINATION 01","title":"The Place Where Your Smile Lives","text":"Ammu Maa❤️\n\nNin smile nodidaga nan day estu bad idru swalpa better aguthe Ammu maa💗 Nin naguvali nange ondu tara peace siguthe Madam Jii Sometimes ninge gothiralla but nin ondu small smile kuda nan heart ge tumbha happiness koduthe Ammu maa🫶🏼\n\nNin life alli yavaglu reasons to smile erbeku maa Nin kannalli tears bandru, ha tears happiness endha barbeku maa You deserve all the little things that make your heart happy Ammu maa🫶🏻\n\nYour first star: The Star of Happiness ⭐"},{"emoji":"✨","tag":"DESTINATION 02","title":"All the Little Dreams I Have With You","text":"Ammu Maa💕\n\nNin jothe share madkolbeku antha nan manasalli tumbha dreams ede maa Ondu peaceful evening, long walks, random conversations, chikka chikka trips, together photos, and memories that we can smile about years later Ammu Maa🥹\n\nBig dreams erbeku antha illa maa Sometimes nin jothe simple moments spend madodu kuda nan biggest dream Madam Jii🫂\n\nOndu dina nam dreams yalla beautiful memories agbeku antha hopes ede Ammu maa✨\n\nYour second star: The Star of Dreams ⭐"},{"emoji":"🏡","tag":"DESTINATION 03","title":"If the World Gets Too Loud","text":"Ammu Maa❤️\n\nLife yavagalu easy agiralla Sometimes everything feels confusing sometimes words kuda sigalla maa But ninge yavaglu safe, peaceful and loved feel agbeku anodu nan wish Madam jii\n\nNin feelings yene edru nin happiness yene edru adukke value ede Nin dreams pursue madoke nin thoughts share madoke and nin nijavada self agiroke freedom erbeku Ammu maa🫂\n\nNin life alli peace, happiness and beautiful beginnings tumba erli Madam jii\n\nYour third star: The Star of Peace ⭐"},{"emoji":"🌍","tag":"DESTINATION 04","title":"A Thousand Places, A Million Memories","text":"Ammu Maa🌍💗\n\nNin jothe explore madbeku antha esto places ede Ammu maa Mountains, beaches, rainy roads, beautiful sunsets, cute cafés, long drives and random adventures ena estodu ede Ammu maa🥹\n\nDestination important alla maa ha journey alli eruva small moments kuda important Photos click madodu, foods try madodu, and later ha memories nenpiskondu and enjoy madbeku Ammu maa\n\nLife namge esto beautiful places torisali maa Every new adventure namage ondu unforgettable story kodali Madam jii✨\n\nYour fourth star: The Star of Adventures ⭐"},{"emoji":"💗","tag":"THE FINAL DESTINATION","title":"The Most Special Star in My Universe","text":"Happy Birthday, Ammu Maa! 🎂❤️\n\nYou have reached the final destination but honestly nin bage helbeku andre words saalalla Ammu maa\n\nEe chikka Dream Atlas ninge ondu simple reminder you are special, your happiness matters, and you deserve so much love, peace and beautiful moments in life Madm jiii🥹🫶🏻\n\nNin birthday nin life alli enondu beautiful chapter start madli Ammu maa Nin dreams fulfill agli Ammu maa nin face mele smile erli and nin heart always happiness endha tumbhirali Ammu maa\n\nAnd one last thing, Ammu Maa❤️\n\nNin life journey alli esho stars erbahudu but for this little universe you will always be the brightest one Ammu maa🌟💗\n\nWith all the love in my heart,\n\nForever and Always your Karthik❤️"}];
+const visited=new Set();const modal=document.getElementById('modal');
+const buttons=[...document.querySelectorAll('[data-island]')];
+function update(){document.getElementById('progress').style.width=(visited.size/4*100)+'%';document.getElementById('progressLabel').textContent=visited.size+' of 4 wishes discovered';const final=document.getElementById('finalIsland');if(visited.size===4){final.classList.remove('locked');final.querySelector('.emoji').textContent='💗✨';final.querySelector('small').textContent='UNLOCKED — YOUR FINAL WISH';}else{final.classList.add('locked');final.querySelector('.emoji').textContent='🔒💗';final.querySelector('small').textContent='LOCKED — FIND 4 STARS';}}
+function openIsland(n){if(n===4&&visited.size<4){document.getElementById('modalEmoji').textContent='🔒';document.getElementById('modalTag').textContent='A LITTLE MORE EXPLORING';document.getElementById('modalTitle').textContent='The Birthday Star is waiting';document.getElementById('modalText').textContent='Ammu maa, first discover the four wishes around the map. Then your final birthday message will unlock. ✨';document.getElementById('modalAction').textContent='Back to the map';document.getElementById('modalAction').onclick=closeModal;}else{const d=destinations[n];document.getElementById('modalEmoji').textContent=d.emoji;document.getElementById('modalTag').textContent=d.tag;document.getElementById('modalTitle').textContent=d.title;document.getElementById('modalText').textContent=d.text;if(n<4){document.getElementById('modalAction').textContent=visited.has(n)?'Back to the map':'Collect this star ✨';document.getElementById('modalAction').onclick=()=>{visited.add(n);buttons[n].classList.add('done');update();closeModal();};}else{document.getElementById('modalAction').textContent='Read my birthday wish again 💗';document.getElementById('modalAction').onclick=()=>{document.getElementById('modalText').textContent=d.text;};}}modal.classList.add('open');}
+function closeModal(){modal.classList.remove('open');}
+buttons.forEach(b=>b.addEventListener('click',()=>openIsland(Number(b.dataset.island))));document.getElementById('close').addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+const stars=document.getElementById('stars');for(let i=0;i<60;i++){const s=document.createElement('span');s.className='star';s.textContent=['✦','·','✧'][i%3];s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.fontSize=(8+Math.random()*13)+'px';s.style.animationDelay=Math.random()*3+'s';stars.appendChild(s);}
+</script>
+</body>
+</html>
